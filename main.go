@@ -67,7 +67,10 @@ func main() {
 			check(err)
 		} else if err == ErrPrNotFound {
 			transaction := NewTransactionFromInfo(gitInfo, commandArgs.branchName)
-			githubClient.createPR(transaction, commandArgs.title, commandArgs.message)
+			pr, err := githubClient.createPR(transaction, commandArgs.title, commandArgs.message)
+			check(err)
+
+			fmt.Println("updated pr is here: %s", *pr.HTMLURL)
 		}
 	} else {
 		if commandArgs.title == "" && commandArgs.message == "" {
@@ -77,7 +80,10 @@ func main() {
 				fmt.Printf("pr already exists here: %s\n", *pr.HTMLURL)
 			}
 		} else {
-			githubClient.updatePR(gitInfo, pr, commandArgs.title, commandArgs.message)
+			pr, err := githubClient.updatePR(gitInfo, pr, commandArgs.title, commandArgs.message)
+			check(err)
+
+			fmt.Println("created pr here: %s", *pr.HTMLURL)
 		}
 	}
 }
