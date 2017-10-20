@@ -97,6 +97,7 @@ Usage of git-pr:
 - [ ] implement showing details on a pr once made
 - [ ] allow more flexible titling
 - [ ] tests
+- [ ] make it work for with forking model (cross-namespace)
 
 # MIT License
 Copyright 2017 adityanatraj
