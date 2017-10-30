@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"github.com/mitchellh/go-homedir"
 	"os"
 	"path"
+
+	"github.com/mitchellh/go-homedir"
 )
 
 type Config struct {

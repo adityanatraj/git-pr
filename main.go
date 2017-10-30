@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/spf13/pflag"
 	"os"
 	"strings"
+
+	"github.com/spf13/pflag"
 )
 
 func check(err error, msg ...string) {
@@ -70,7 +71,7 @@ func main() {
 			pr, err := githubClient.createPR(transaction, commandArgs.title, commandArgs.message)
 			check(err)
 
-			fmt.Println("updated pr is here: %s", *pr.HTMLURL)
+			fmt.Printf("updated pr is here: %s\n", *pr.HTMLURL)
 		}
 	} else {
 		if commandArgs.title == "" && commandArgs.message == "" {
@@ -83,7 +84,7 @@ func main() {
 			pr, err := githubClient.updatePR(gitInfo, pr, commandArgs.title, commandArgs.message)
 			check(err)
 
-			fmt.Println("created pr here: %s", *pr.HTMLURL)
+			fmt.Printf("created pr here: %s\n", *pr.HTMLURL)
 		}
 	}
 }

@@ -21,13 +21,12 @@ var (
 	ErrNoOrigin  = errors.New("fatal: No remote named 'origin'. ")
 	ErrBadRemote = errors.New("fatal: couldnt read 'git remote get-url origin' output")
 
-	ErrBadBranchParsing = errors.New("failed parsing the branch name")
-
-	RemotePattern = regexp.MustCompile(`git@github.com:(?P<namespace>[a-zA-Z0-9\-]+)/(?P<repo>.*).git`)
+	RemotePattern = regexp.MustCompile(`git@(?P<host>[a-zA-Z0-9._\-]+[.][a-z]+):(?P<namespace>[a-zA-Z0-9\-]+)/(?P<repo>.*)[.]git`)
 	TitlePattern  = regexp.MustCompile(`(?:(?:[fF]eature|[fF]ix)\/[pP][lL][tT][oO]-)?(?P<number>[0-9]+)?-?(?P<raw_title>.*)`)
 )
 
 type GitInfo struct {
+	host      string
 	namespace string
 	repo      string
 	branch    string
@@ -61,7 +60,7 @@ func getGitInfo() (gitInfo GitInfo, err error) {
 		err = ErrBadRemote
 		return
 	} else {
-		gitInfo.namespace, gitInfo.repo = matches[0][1], matches[0][2]
+		gitInfo.host, gitInfo.namespace, gitInfo.repo = matches[0][1], matches[0][2], matches[0][3]
 	}
 
 	return
