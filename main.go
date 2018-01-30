@@ -21,6 +21,8 @@ func check(err error, msg ...string) {
 }
 
 const (
+	Version = "0.9.0"
+
 	DefaultConfigPath = ".config/git-pr"
 	DefaultBranchInto = "master"
 	DefaultTitle      = ""
@@ -29,11 +31,12 @@ const (
 )
 
 var commandArgs struct {
-	configPath string
-	branchName string
-	title      string
-	message    string
-	isDetailed bool
+	configPath   string
+	branchName   string
+	title        string
+	message      string
+	isDetailed   bool
+	isVersioning bool
 }
 
 func init() {
@@ -42,11 +45,17 @@ func init() {
 	pflag.StringVarP(&commandArgs.title, "title", "t", DefaultTitle, "override title generation with this")
 	pflag.StringVarP(&commandArgs.message, "message", "m", DefaultMessage, "message body for the PR")
 	pflag.BoolVarP(&commandArgs.isDetailed, "details", "d", DefaultIsDetailed, "output details of PR (if already exists)")
+	pflag.BoolVarP(&commandArgs.isVersioning, "version", "v", false, "show version information")
 
 	pflag.Parse()
 }
 
 func main() {
+	if commandArgs.isVersioning {
+		fmt.Printf("version: %s\n", Version)
+		return
+	}
+
 	gitInfo, err := getGitInfo()
 	check(err)
 
